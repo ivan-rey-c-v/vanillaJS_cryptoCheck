@@ -19,20 +19,31 @@ function newTD (parent, content) {
 
 function createNewRow(array) {
 	var tr = createNode('tr');
-
 	for(let i = 0; i < array.length; i++) {
 		let content = array[i];
 		newTD(tr, content);
 	}
-
 	return append(tbody, tr);
 }
 
-createNewRow([
-	'Ether',
-	'Etherium',
-	1,
-	200,
-	+5,
-	'$500'
-])
+var currency = ['ETH', 'DASH', 'BCH', 'BTC'];
+var convertion = ['USD', 'EUR'];
+
+var url = `
+	https://min-
+	api.cryptocompare.com/data/price
+	multi?
+	fsyms=${currency.toString()}
+	&tsyms=${convertion.toString()}
+	`
+
+console.log(url);
+
+
+fetch(url)
+	.then(res => {
+		res.json().then(data => {
+			console.log(data, data['ETH']);
+
+		});
+	})
