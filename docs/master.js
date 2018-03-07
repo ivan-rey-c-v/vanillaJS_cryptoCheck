@@ -3,11 +3,11 @@ function createNode (tag) {
 }
 
 var _coins = ['ETH', 'DASH', 'BCH', 'BTC'];
-var _currency = ['USD', 'EUR'];
+var _currency = ['USD'];
 
-var coinListUrl = 'https://www.cryptocompare.com/api/data/coinlist/';
+var coinsListUrl = 'https://www.cryptocompare.com/api/data/coinlist/';
 
-var coinDataUrl = `
+var coinsDataUrl = `
 	https://min-
 	api.cryptocompare.com/data/price
 	multi?
@@ -15,9 +15,9 @@ var coinDataUrl = `
 	&tsyms=${_currency.toString()}
 	`
 
-function goFetch (url) {
+async function goFetch(url) {
 	let data;
-	fetch(url)
+	await fetch(url, {mode: 'cors'})
 		.then(res => {
 			res.json()
 				.then(json => {
@@ -27,18 +27,20 @@ function goFetch (url) {
 	return data;
 }
 
-function getCoinsData () {
-	let listInfo = goFetch(coinListUrl);
-	let coinsData = goFetch(coinsDataUrl);
+async function getCoinsData () {
+	let listInfo = await goFetch(coinsListUrl);
+	let coinsData = await goFetch(coinsDataUrl);
+	console.log(listInfo, coinsData);
 	return _coins.map( x => {
 		return {
-			imgUrl: listInfo[x].imageUrl,
-			data: coinsData[x]
+			imgUrl: listInfo[x].ImageUrl,
+			rank: listInfo[x].SortOrder,
+			symbol: listInfo[x].Symbol,
+			name: listInfo[x].Name,
+			price: coinsData[x].USD
 		}
 	});
 }
-
-//var _coinsData = getCoinsData();
 
 function createSpan (content, className) {
 	let span = createNode('span');
@@ -56,8 +58,7 @@ function createSpanImg (src) {
 
 function createList (data) {
 	let li = createNode('li');
-	//let span1 = createSpanImg(data.imgUrl);
-	let span1 = createSpan('logo', 'flex-1');
+	let span1 = createSpanImg(data.imgUrl);
 	let span2 = createSpan(data.rank, 'flex-1');
 	let span3 = createSpan(data.symbol, 'flex-1');
 	let span4 = createSpan(data.name, 'flex-2');
@@ -67,25 +68,4 @@ function createList (data) {
 	return li;
 }
 
-function renderCoinsData(dataArray) {
-
-}
-
-createList(
-	{
-		imgUrl: 'asdf',
-		rank: 1,
-		symbol: 'ETH',
-		name: 'Ethereum',
-		price: 500
-	}
-)
-createList(
-	{
-		imgUrl: 'asdf',
-		rank: 1,
-		symbol: 'ETH',
-		name: 'Ethereum',
-		price: 500
-	}
-)
+getCoinsData().then(res => console.log(res))

@@ -2,7 +2,7 @@ html {
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	box-sizing: border-box;
 	font-size: 10px;
-	color: hsl(212, 85%, 85%)
+	color: hsl(210, 100%, 94%)
 }
 
 *, *:before, *:after {
@@ -63,8 +63,8 @@ img {
 }
 
 #app {
-	flex: 0 1 600px;
-	background-color: rgb(36, 54, 82);
+	flex: 0 1 650px;
+	background-color: rgb(36, 37, 82);
 	height: 100vh;
 	max-height: 700px;
 	min-height: 400px
@@ -78,8 +78,11 @@ header > h1 {
 	font-size: 2.50rem;
 }
 
+ul {
+	padding: 0 1rem
+}
+
 li {
-	padding: 0 1rem;
 	height: 3rem;
 	width: 100%;
 
@@ -89,11 +92,15 @@ li {
 }
 
 li > span {
-	font-size: 1.15rem;
+	font-size: 1.20rem;
 
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.w-2 {
+	width: 2rem;
 }
 
 .flex-1 {
@@ -102,10 +109,11 @@ li > span {
 .flex-2 {
 	flex: 2 2 10px
 }
-.flex-3 {
-	flex: 3 3 10px
-}
 
 .font-smaller > span {
-	font-size: 1rem
+	font-size: 1.10rem
+}
+
+.hidden {
+	display: none
 }

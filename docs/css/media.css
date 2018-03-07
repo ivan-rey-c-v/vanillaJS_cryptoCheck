@@ -1,0 +1,15 @@
+@media screen and (min-width: 350px) {
+	.screen-small {
+		display: block
+	}
+}
+@media screen and (min-width: 400px) {
+	.screen-medium {
+		display: block
+	}
+}
+@media screen and (min-width: 460px) {
+	.screen-large {
+		display: block
+	}
+}
