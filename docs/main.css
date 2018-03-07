@@ -2,6 +2,7 @@ html {
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	box-sizing: border-box;
 	font-size: 10px;
+	color: hsl(212, 85%, 85%)
 }
 
 *, *:before, *:after {
@@ -32,6 +33,9 @@ img {
 .justify-center {
 	justify-content: center
 }
+.justify-between {
+	justify-content: space-between
+}
 
 .items-center {
 	align-items: center
@@ -46,18 +50,21 @@ img {
 .w-screen {
 	width: 100vw
 }
+.w-full {
+	width: 100%
+}
 
 .roof-top {
 	position: fixed;
 	height: 0.50rem;
 	width: 100vw;
-	background: linear-gradient(90deg, tomato, rgb(112, 32, 178));
+	background: linear-gradient(90deg, rgb(253, 33, 33), rgb(20, 255, 204));
 	top: 0; left: 0;
 }
 
 #app {
 	flex: 0 1 600px;
-	background-color: lightgray;
+	background-color: rgb(36, 54, 82);
 	height: 100vh;
 	max-height: 700px;
 	min-height: 400px
@@ -71,20 +78,34 @@ header > h1 {
 	font-size: 2.50rem;
 }
 
-table {
-	width: 100%
-}
-
-th {
-	background-color: lemonchiffon;
+li {
+	padding: 0 1rem;
 	height: 3rem;
+	width: 100%;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center
 }
 
-tbody > tr {
-	margin-top: 1rem
+li > span {
+	font-size: 1.15rem;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-tbody > tr > td {
-	background-color: lightcyan;
-	height: 2.50rem;
-	text-align: center
+
+.flex-1 {
+	flex: 1 1 10px
+}
+.flex-2 {
+	flex: 2 2 10px
+}
+.flex-3 {
+	flex: 3 3 10px
+}
+
+.font-smaller > span {
+	font-size: 1rem
 }
