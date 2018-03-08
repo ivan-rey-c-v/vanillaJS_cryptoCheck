@@ -1,3 +1,5 @@
+import newList from './render.js';
+
 var COINMARKETCAP_API_URI = "https://api.coinmarketcap.com/v1/ticker/?limit=10";
 
 var CRYPTOCOMPARE_API_URI = "https://min-api.cryptocompare.com/data/all/coinlist";
@@ -31,4 +33,4 @@ async function fetchCompleteCoinsData() {
 }
 
 renderCoinsList()
-	.then(res => console.log(res));
+	.then(data => render(data));

@@ -8,8 +8,13 @@
 		display: flex
 	}
 }
-@media screen and (min-width: 460px) {
+@media screen and (min-width: 450px) {
 	.screen-large {
+		display: flex
+	}
+}
+@media screen and (min-width: 500px) {
+	.screen-larger {
 		display: flex
 	}
 }
