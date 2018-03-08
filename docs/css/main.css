@@ -14,12 +14,16 @@ body, h1, h2, h3, h4, h5, h6, p, ol, ul {
 	padding: 0;
 }
 
+body {
+	background-color: rgb(37, 37, 58)
+}
+
 ol, ul {
 	list-style: none;
 }
 
 img {
-	max-width: 100%;
+	width: 2rem;
 	height: auto;
 }
 
@@ -99,6 +103,10 @@ li > span {
 	align-items: center;
 }
 
+li > span > p {
+	padding-left: 1rem
+}
+
 .w-2 {
 	width: 2rem;
 }
@@ -116,4 +124,12 @@ li > span {
 
 .hidden {
 	display: none
+}
+
+.red {
+	color: rgb(255, 71, 38)
+}
+
+.green {
+	color: rgb(0, 255, 0)
 }
