@@ -1,5 +1,3 @@
-console.log('loading master script file ...')
-
 var COINMARKETCAP_API_URI = "https://api.coinmarketcap.com/v1/ticker/?limit=10";
 
 var CRYPTOCOMPARE_API_URI = "https://min-api.cryptocompare.com/data/all/coinlist";
@@ -19,9 +17,9 @@ function fetchCoinsImages(arr) {
 	return fetch(CRYPTOCOMPARE_API_URI)
 		.then(res => res.json())
 		.then(data => {
-			arr.map(x => {
-				x.ImageUrl = data.Data[x.symbol].ImageUrl;
-			})
+			for(let i =0; i < array.length; i++) {
+				array[i].ImageUrl = data.Data[array[i]].ImageUrl;
+			}
 		});
 }
 
@@ -34,12 +32,13 @@ async function fetchCompleteCoinsData() {
 
 fetchCompleteCoinsData()
 	.then(data => {
-		console.log(data);
 		renderTopTenCrypto(data);
 	});
 
 function renderTopTenCrypto(array) {
-	array.map(newList);
+	for(let i = 0; i < array.length; i++) {
+		newList(array[i]);
+	}
 }
 
 function newList (data) {
@@ -64,7 +63,6 @@ function newList (data) {
 		_cap
 	);
 	myList.appendChild(_parent);
-	console.log(myList);
 }
 
 function el(tag) {
