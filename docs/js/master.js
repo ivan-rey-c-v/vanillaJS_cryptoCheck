@@ -8,17 +8,24 @@ function fetchCoinsData(arr) {
 		.then(res => res.json())
 		.then(data => {
 			for(let i = 0; i < data.length; i++) {
-				arr.push(data[i]);
+			  arr.push(data[i]);
 			}
 		});
 }
 
-function fetchCoinsImages(arr) {
+function fetchCoinsImages(array) {
 	return fetch(CRYPTOCOMPARE_API_URI)
 		.then(res => res.json())
 		.then(data => {
 			for(let i =0; i < array.length; i++) {
-				array[i].ImageUrl = data.Data[array[i]].ImageUrl;
+				let symbol = array[i].symbol
+
+				// symbol may not match
+				if(data.Data[symbol] === undefined) {
+					return undefined;
+				}
+
+				array[i].ImageUrl = data.Data[symbol].ImageUrl;
 			}
 		});
 }
