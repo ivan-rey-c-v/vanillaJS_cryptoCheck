@@ -1,20 +1,25 @@
+.name-slot, .hour-slot, .week-slot, .cap-slot {
+	display: none
+}
+
+
 @media screen and (min-width: 350px) {
-	.screen-small {
+	.week-slot {
 		display: flex
 	}
 }
 @media screen and (min-width: 400px) {
-	.screen-medium {
+	.name-slot {
 		display: flex
 	}
 }
 @media screen and (min-width: 450px) {
-	.screen-large {
+	.hour-slot {
 		display: flex
 	}
 }
 @media screen and (min-width: 500px) {
-	.screen-larger {
+	.cap-slot {
 		display: flex
 	}
 }
