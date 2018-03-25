@@ -3,117 +3,96 @@ var COINMARKETCAP_API_URI = "https://api.coinmarketcap.com/v1/ticker/?limit=10";
 var CRYPTOCOMPARE_API_URI = "https://min-api.cryptocompare.com/data/all/coinlist";
 
 
-function fetchCoinsData(arr) {
-	return fetch(COINMARKETCAP_API_URI)
-		.then(res => res.json())
-		.then(data => {
-			for(let i = 0; i < data.length; i++) {
-			  arr.push(data[i]);
-			}
-		});
+// Refactor
+
+function makePreList(slots) {
+	for(let i = 0; i < 10; i++) {
+		var li = document.createElement('li');
+		li.setAttribute(id, `rank-${i+1}`);
+		makeSlots(li, slots);
+	}
 }
 
-function fetchCoinsImages(array) {
-	return fetch(CRYPTOCOMPARE_API_URI)
-		.then(res => res.json())
-		.then(data => {
-			for(let i =0; i < array.length; i++) {
-				let symbol = array[i].symbol
-
-				// symbol may not match
-				if(data.Data[symbol] === undefined) {
-					return undefined;
-				}
-
-				array[i].ImageUrl = data.Data[symbol].ImageUrl;
-			}
-		});
+function makeSlots(parent, array) {
+	for(let i = 0; i < array.length; i++) {
+		var span = document.createElement('span');
+		span.classList.add(array[i]);
+		parent.appendChild(parent);
+	}
+	return parent;
 }
 
-async function fetchCompleteCoinsData() {
-	var _coinsData = [];
-	await fetchCoinsData(_coinsData);
-	await fetchCoinsImages(_coinsData);
-	return _coinsData;
+function getList(rank) {
+	return document.getElementById(`rank-${rank}`);
 }
 
-fetchCompleteCoinsData()
-	.then(data => {
-		renderTopTenCrypto(data);
-	});
+function setSlot(parent, slot, text) {
+	var el = parent.getElementByClassName(slot);
+	el.textContent = text;
+	return el;
+}
+
+function setPctSlot(parent, slot, num) {
+	var colorClass = num < 0 ? 'red' : 'green';
+	var content = `${num}%`;
+	var el = setSlot(parent, slot, content);
+	el.classList.add(colorClass);
+	return el;
+}
+
+function setCrypto(parent, symbol) {
+	var img = document.createElement('img');
+	var p = document.createElement('p');
+	img.setAttribute('alt', 'logo');
+	p.textContent = symbol;
+
+	var slot = parent.getElementByClassName('crypto-slot');
+	slot.appendChild(img);
+	slot.appendChild(p);
+	return slot;
+}
+
+function updateList(data) {
+	var parent = getList(data.rank);
+	setCrypto(parent, data.symbol);
+	setSlot(parent, 'name-slot', data.name);
+	setSlot(parent, 'price-slot', data.price_usd);
+	setPctSlot(parent, 'hour-slot', data.percent_change_1h);
+	setPctSlot(parent, 'day-slot', data.percent_change_24h);
+	setPctSlot(parent, 'week-slot', data.percent_change_7d);
+	setPctSlot(parent, 'cap-slot', data.market_cap_usd);
+}
 
 function renderTopTenCrypto(array) {
 	for(let i = 0; i < array.length; i++) {
-		newList(array[i]);
+		updateList(array[i]);
+	}
+	return array;
+}
+
+function updateCryptoImage(cryptoArray, data) {
+	for(let i = 0; i < cryptoArray.length; i++) {
+		var symbol = cryptoArray[i].symbol;
+		var cryptoData = data[symbol];
+		if(cryptoData) {
+			var list = getList(`rank-${i + 1}`);
+			var img = list.getElementsByTagName('img');
+			img.setAttribute('src', cryptoData.ImageUrl);
+		}
 	}
 }
 
-function newList (data) {
-	var _parent = el('li');
-	var _rank = fullSpan(data.rank, 'w-2');
-	var _crypto = cryptoSpan(data.ImageUrl, data.symbol);
-	var _name = fullSpan(data.name, 'flex-1', 'hidden', 'screen-medium');
-	var _price = fullSpan(data.price_usd, 'flex-1');
-	var _hour = pctSpan(data.percent_change_1h, 'hidden', 'screen-large');
-	var _day = pctSpan(data.percent_change_24h);
-	var _week = pctSpan(data.percent_change_7d, 'hidden', 'screen-small');
-	var _cap = marketCap(data.market_cap_usd);
-	append(
-		_parent,
-		_rank,
-		_crypto,
-		_name,
-		_price,
-		_hour,
-		_day,
-		_week,
-		_cap
-	);
-	myList.appendChild(_parent);
-}
+var slots = ['rank', 'crypto', 'name', 'price', 'hour', 'day', 'week', 'cap'];
 
-function el(tag) {
-	return document.createElement(tag);
-}
+makePreList(slots);
 
-function fullSpan(content, ...classNames) {
-	var span = el('span');
-	span.textContent = content;
-	span.classList.add(...classNames);
-	return span;
-}
-
-function cryptoSpan(url, symbol) {
-	var span = el('span');
-	var img = el('img');
-	var p = el('p');
-	img.setAttribute('src', `https://www.cryptocompare.com${url}`);
-	img.setAttribute('alt', 'logo');
-	p.textContent = symbol;
-	span.appendChild(img);
-	span.appendChild(p);
-	span.classList.add('flex-1')
-	return span;
-}
-
-function pctSpan(num, ...classNames) {
-	var span = el('span');
-	var colorClass = num < 0 ? 'red' : 'green';
-	var content = `${num}%`;
-	span.textContent = content;
-	span.classList.add('flex-1', colorClass, ...classNames);
-	return span;
-}
-
-function marketCap(cap) {
-	var span = el('span');
-	span.classList.add('flex-2', 'hidden', 'screen-larger');
-	span.textContent = cap.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	return span;
-}
-
-function append(parent, ...children) {
-	for(let i = 0; i < children.length; i++) {
-		parent.appendChild(children[i]);
-	}
-}
+fetch(COINMARKETCAP_API_URI)
+.then(res => res.json())
+.then(renderTopTenCrypto)
+.then(nodesArray => {
+	fetch(CRYPTOCOMPARE_API_URI)
+	.then(res => res.json())
+	.then(data => {
+		updateCryptoImage(nodesArray, data)
+	})
+})
